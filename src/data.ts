@@ -45,6 +45,8 @@ export type LocationRecord = {
   longitude?: number
   seenAt: string
   details: string
+  // true quando o tutor já viu o aviso (ou quando o pet foi marcado como encontrado)
+  seen?: boolean
   createdAt: string
 }
 
@@ -108,6 +110,18 @@ export const store = {
   },
   saveLocation(location: LocationRecord) {
     write(KEYS.locations, [...this.locations(), location])
+  },
+  setLocationSeen(id: string, seen: boolean) {
+    write(
+      KEYS.locations,
+      this.locations().map((item) => (item.id === id ? { ...item, seen } : item)),
+    )
+  },
+  markPetLocationsSeen(petId: string) {
+    write(
+      KEYS.locations,
+      this.locations().map((item) => (item.petId === petId ? { ...item, seen: true } : item)),
+    )
   },
 }
 

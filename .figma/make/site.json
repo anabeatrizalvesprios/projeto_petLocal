@@ -1,5 +1,7 @@
 {
-  "description": "Manage pet and owner profiles with secure login, register pet locations manually or via GPS, and access a user-friendly, accessible dashboard for easy tracking.",
+  "title": "PetLocal",
+  "language": "pt-BR",
+  "description": "PetLocal: cadastre seus pets com código ou QR code de identificação e ajude pets perdidos a voltar para casa. Quem encontra um pet avisa o dono, e o dono pode criar um aviso de Procura-se.",
   "robots": {
     "index": false
   },
