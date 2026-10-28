@@ -1,0 +1,10 @@
+{
+  "description": "Manage pet and owner profiles with secure login, register pet locations manually or via GPS, and access a user-friendly, accessible dashboard for easy tracking.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
