@@ -1,6 +1,7 @@
 // Estrutura da área logada: menu lateral e área de conteúdo.
 import { useEffect, useState } from "react"
 import { SkipLink } from "./SkipLink"
+import { ThemeToggle } from "./ThemeToggle"
 import { Icon, IconName } from "../Icons"
 import { Logo } from "./Logo"
 import { User } from "../data"
@@ -72,6 +73,7 @@ export function AppShell({
             </button>
           ))}
         </nav>
+        <ThemeToggle className="sidebar-theme" />
         <div className="sidebar-user">
           <div className="avatar" aria-hidden="true">
             {user.name.charAt(0).toUpperCase()}

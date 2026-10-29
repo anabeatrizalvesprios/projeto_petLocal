@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Icon } from "../Icons"
 import { Logo } from "./Logo"
 import { SkipLink } from "./SkipLink"
+import { ThemeToggle } from "./ThemeToggle"
 import { navigate, openFoundSearch, Route, routeFromHash } from "../routes"
 
 export function PublicHeader() {
@@ -41,6 +42,7 @@ export function PublicHeader() {
             >
               <Icon name="search" size={19} /> Procura-se{currentText("wanted")}
             </button>
+            <ThemeToggle className="text-button" />
             <button
               className={isCurrent("login") ? "text-button current" : "text-button"}
               onClick={() => goTo("login")}
