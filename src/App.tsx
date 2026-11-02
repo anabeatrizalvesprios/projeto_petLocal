@@ -19,6 +19,7 @@ import { MeuPerfil } from "./pages/MeuPerfil"
 import { MeusPets } from "./pages/MeusPets"
 import { PaginaInicial } from "./pages/PaginaInicial"
 import { PainelPrincipal } from "./pages/PainelPrincipal"
+import { PetCompartilhado } from "./pages/PetCompartilhado"
 import { ProcuraSe } from "./pages/ProcuraSe"
 import { navigate, publicRoutes, Route, routeFromHash } from "./routes"
 
@@ -36,6 +37,7 @@ const routeTitles: Record<Route, string> = {
   "pet-form": "Cadastro de pet",
   location: "Avisos recebidos",
   profile: "Meu perfil",
+  shared: "Pet desaparecido",
 }
 
 export default function App() {
@@ -106,7 +108,8 @@ export default function App() {
       route !== "forgot" &&
       route !== "found" &&
       route !== "wanted" &&
-      route !== "alert"
+      route !== "alert" &&
+      route !== "shared"
     )
       navigate("dashboard")
   }, [route, user])
@@ -228,16 +231,29 @@ export default function App() {
         }}
       />
     )
-  else if (route === "wanted")
+  else if (route === "shared")
     content = user ? (
       <AppShell route="wanted" user={user} onLogout={logout}>
-        <ProcuraSe onAlert={openAlert} />
+        <PetCompartilhado />
       </AppShell>
     ) : (
       <>
         <PublicHeader />
-        <main className="public-wanted-main">
-          <ProcuraSe onAlert={openAlert} />
+        <main id="conteudo" className="public-wanted-main">
+          <PetCompartilhado />
+        </main>
+      </>
+    )
+  else if (route === "wanted")
+    content = user ? (
+      <AppShell route="wanted" user={user} onLogout={logout}>
+        <ProcuraSe onAlert={openAlert} user={user} />
+      </AppShell>
+    ) : (
+      <>
+        <PublicHeader />
+        <main id="conteudo" className="public-wanted-main">
+          <ProcuraSe onAlert={openAlert} user={user} />
         </main>
       </>
     )

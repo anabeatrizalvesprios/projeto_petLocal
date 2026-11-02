@@ -4,6 +4,7 @@ import { Icon } from "../Icons"
 import { Field, SelectField } from "../components/Field"
 import { BackHome } from "../components/BackHome"
 import { PageHeading } from "../components/PageHeading"
+import { UseLocationButton } from "../components/UseLocationButton"
 import { states } from "../constants"
 import { User } from "../data"
 import { CityCombobox } from "../CityCombobox"
@@ -56,7 +57,7 @@ export function MeuPerfil({
       </div>
       <form className="panel form-panel" onSubmit={submit} noValidate>
         {error && (
-          <p className="inline-error" role="alert">
+          <p id="form-error" className="inline-error" role="alert">
             <Icon name="warning" size={18} /> {error}
           </p>
         )}
@@ -86,6 +87,9 @@ export function MeuPerfil({
           onChange={(phone) => setForm({ ...form, phone })}
           autoComplete="tel"
           hint="Este número aparece para quem encontrar um dos seus pets."
+        />
+        <UseLocationButton
+          onLocated={({ city, state }) => setForm((current) => ({ ...current, city, state }))}
         />
         <div className="form-grid">
           <SelectField

@@ -1,4 +1,4 @@
-export type IconName = "paw" | "dog" | "cat" | "bird" | "rabbit" | "search" | "alert-sign" | "home" | "pets" | "pin" | "user" | "plus" | "edit" | "trash" | "arrow" | "shield" | "heart" | "eye" | "menu" | "logout" | "check" | "warning" | "gps" | "mail" | "moon" | "sun" | "help"
+export type IconName = "paw" | "dog" | "cat" | "bird" | "rabbit" | "search" | "alert-sign" | "home" | "pets" | "pin" | "user" | "plus" | "edit" | "trash" | "arrow" | "shield" | "heart" | "eye" | "menu" | "logout" | "check" | "warning" | "gps" | "mail" | "moon" | "sun" | "help" | "lock" | "eye-off" | "phone" | "share"
 
 export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {
   const common = {
@@ -160,6 +160,29 @@ export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {
         <circle cx="12" cy="12" r="9.5" />
         <path d="M9.4 9.3a2.7 2.7 0 0 1 5.2.9c0 1.8-2.6 2.2-2.6 3.9M12 17h.01" />
       </>
+    ),
+    share: (
+      <>
+        <circle cx="18" cy="5" r="2.5" />
+        <circle cx="6" cy="12" r="2.5" />
+        <circle cx="18" cy="19" r="2.5" />
+        <path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4" />
+      </>
+    ),
+    lock: (
+      <>
+        <rect x="4" y="11" width="16" height="10" rx="2" />
+        <path d="M8 11V7a4 4 0 0 1 8 0v4M12 15v2" />
+      </>
+    ),
+    "eye-off": (
+      <>
+        <path d="M3 3l18 18" />
+        <path d="M10.6 6.1A10 10 0 0 1 12 6c6.5 0 10 6 10 6a17 17 0 0 1-3.2 3.9M6.6 7.6A16.6 16.6 0 0 0 2 12s3.5 6 10 6a9.6 9.6 0 0 0 4.2-1M9.9 9.9a2.5 2.5 0 0 0 3.2 3.2" />
+      </>
+    ),
+    phone: (
+      <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2Z" />
     ),
     mail: (
       <>

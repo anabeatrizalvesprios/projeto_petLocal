@@ -1,12 +1,13 @@
 // Tela inicial (pública): apresenta o PetLocal.
 import { Icon } from "../Icons"
 import { PublicHeader } from "../components/PublicHeader"
+import { whatsappLink } from "../contact"
 
 export function PaginaInicial() {
   return (
     <>
       <PublicHeader />
-      <main>
+      <main id="conteudo">
         <section className="hero">
           <div className="hero-copy">
             <span className="eyebrow">
@@ -125,6 +126,32 @@ export function PaginaInicial() {
               Dica: o PetLocal pode ser usado só com o teclado (tecla Tab para
               avançar, Enter para abrir) e com leitores de tela.
             </p>
+          </div>
+        </section>
+        <section className="contact-section" id="contato" aria-labelledby="contato-titulo">
+          <h2 id="contato-titulo">Entre em contato</h2>
+          <p>Está com dúvida ou algum problema no PetLocal? Fale com o nosso suporte.</p>
+          <div className="contact-cards">
+            <a className="contact-card" href="mailto:petlocal@petlocal.com.br?subject=Suporte%20PetLocal">
+              <span className="feature-icon green"><Icon name="mail" /></span>
+              <span>
+                <span>E-mail</span>
+                <strong>petlocal@petlocal.com.br</strong>
+              </span>
+            </a>
+            <a
+              className="contact-card"
+              href={whatsappLink("(18) 99999-9999", "Olá! Preciso de ajuda com o PetLocal.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp (18) 99999-9999 (abre em nova aba)"
+            >
+              <span className="feature-icon green"><Icon name="phone" /></span>
+              <span>
+                <span>WhatsApp</span>
+                <strong>(18) 99999-9999</strong>
+              </span>
+            </a>
           </div>
         </section>
       </main>

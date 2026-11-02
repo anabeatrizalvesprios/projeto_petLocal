@@ -5,8 +5,11 @@ import { Icon } from "../Icons"
 import { AuthLayout } from "../components/AuthLayout"
 import { Field, SelectField } from "../components/Field"
 import { ChipChoice, isIdentifierInUse, PetIdentification } from "../components/PetIdentification"
+import { ConfirmDialog } from "../components/ConfirmDialog"
+import { TermsDialog } from "../components/TermsDialog"
 import { PhotoField } from "../components/PhotoField"
 import { SpeciesField } from "../components/SpeciesField"
+import { UseLocationButton } from "../components/UseLocationButton"
 import { states } from "../constants"
 import { hashPassword, makeId, Pet, RegisterDraft, store, User } from "../data"
 import { navigate } from "../routes"
@@ -37,6 +40,9 @@ export function CadastroPrimeiroPet({
   const [error, setError] = useState("")
   const [codeError, setCodeError] = useState("")
   const [saving, setSaving] = useState(false)
+  const [accepted, setAccepted] = useState(false)
+  const [termsOpen, setTermsOpen] = useState(false)
+  const [cancelOpen, setCancelOpen] = useState(false)
   if (!draft) {
     return (
       <AuthLayout
@@ -130,13 +136,16 @@ export function CadastroPrimeiroPet({
         <small>Você e seu pet</small>
       </div>
       {error && (
-        <p className="inline-error" role="alert">
+        <p id="form-error" className="inline-error" role="alert">
           <Icon name="warning" size={18} /> {error}
         </p>
       )}
       <form className="pet-onboarding-form" onSubmit={submit} noValidate>
         <fieldset>
           <legend>Onde vocês moram?</legend>
+          <UseLocationButton
+            onLocated={({ city, state }) => setForm((current) => ({ ...current, city, state }))}
+          />
           <div className="form-grid">
             <SelectField
               label="Estado"
@@ -231,11 +240,52 @@ export function CadastroPrimeiroPet({
             setForm({ ...form, identifierCode })
           }}
         />
-        <button className="button full" type="submit" disabled={saving}>
-          {saving ? "Criando conta…" : "Concluir cadastro"}{" "}
-          <Icon name="check" />
-        </button>
+        <div className="terms-check">
+          <input
+            id="field-terms"
+            name="terms"
+            type="checkbox"
+            required
+            checked={accepted}
+            onChange={(event) => setAccepted(event.target.checked)}
+            data-label="Termos de Uso"
+            data-error-message="Para criar a conta, marque a caixa “Li e concordo com os Termos de Uso”."
+            aria-labelledby="terms-label terms-open"
+          />
+          <div>
+            <label id="terms-label" htmlFor="field-terms">
+              Li e concordo com os{" "}
+            </label>
+            <button id="terms-open" type="button" className="terms-link" onClick={() => setTermsOpen(true)} aria-haspopup="dialog">
+              Termos de Uso
+            </button>{" "}
+            <span aria-hidden="true">*</span>
+          </div>
+        </div>
+        <div className="form-actions split">
+          <button className="button cancel" type="button" onClick={() => setCancelOpen(true)}>
+            Cancelar
+          </button>
+          <button className="button" type="submit" disabled={saving}>
+            {saving ? "Criando conta…" : "Concluir cadastro"} <Icon name="check" />
+          </button>
+        </div>
       </form>
+      {termsOpen && <TermsDialog onClose={() => setTermsOpen(false)} />}
+      {cancelOpen && (
+        <ConfirmDialog
+          title="Cancelar o cadastro?"
+          text="Os dados que você preencheu serão descartados e você volta para a tela inicial."
+          confirmLabel="Sim, cancelar cadastro"
+          cancelLabel="Continuar cadastro"
+          onCancel={() => setCancelOpen(false)}
+          onConfirm={() => {
+            sessionStorage.removeItem("petlocal_register_draft_v1")
+            setCancelOpen(false)
+            navigate("home")
+          }}
+        />
+      )}
     </AuthLayout>
   )
 }

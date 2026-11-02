@@ -80,7 +80,7 @@ export function Cadastro({ onDraft }: { onDraft: (draft: RegisterDraft) => void 
         <small>Você e seu pet</small>
       </div>
       {error && (
-        <p className="inline-error" role="alert">
+        <p id="form-error" className="inline-error" role="alert">
           <Icon name="warning" size={18} /> {error}
         </p>
       )}
@@ -139,9 +139,21 @@ export function Cadastro({ onDraft }: { onDraft: (draft: RegisterDraft) => void 
             minLength={8}
           />
         </div>
-        <button className="button full" type="submit">
-          Continuar <Icon name="arrow" />
-        </button>
+        <div className="form-actions split">
+          <button
+            className="button cancel"
+            type="button"
+            onClick={() => {
+              sessionStorage.removeItem("petlocal_register_draft_v1")
+              navigate("home")
+            }}
+          >
+            Cancelar
+          </button>
+          <button className="button" type="submit">
+            Continuar <Icon name="arrow" />
+          </button>
+        </div>
       </form>
       <p className="auth-switch">
         Já tem uma conta?{" "}

@@ -33,7 +33,7 @@ export function AuthLayout({
           sempre por perto.
         </p>
       </div>
-      <main className="auth-main">
+      <main id="conteudo" className="auth-main">
         <BackHome />
         <div className="auth-card">
           <div className="auth-heading">

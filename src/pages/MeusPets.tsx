@@ -6,10 +6,13 @@ import { ConfirmDialog } from "../components/ConfirmDialog"
 import { BackHome } from "../components/BackHome"
 import { Empty } from "../components/Empty"
 import { Field, SelectField } from "../components/Field"
+import { UseLocationButton } from "../components/UseLocationButton"
 import { PageHeading } from "../components/PageHeading"
 import { PetTypeLabel, speciesIcon } from "../components/SpeciesField"
 import { states } from "../constants"
-import { Pet } from "../data"
+import { Pet, store } from "../data"
+import { ShareButton } from "../components/ShareButton"
+import { toSharedPet } from "../share"
 import { navigate } from "../routes"
 import { useDialog } from "../useDialog"
 import { validateForm } from "../formValidation"
@@ -27,6 +30,7 @@ export function MeusPets({
 }) {
   const [missingPet, setMissingPet] = useState<Pet | null>(null)
   const [foundPet, setFoundPet] = useState<Pet | null>(null)
+  const ownerOf = (pet: Pet) => store.users().find((item) => item.id === pet.userId)
   return (
     <>
     <div className="page">
@@ -98,6 +102,7 @@ export function MeusPets({
                   >
                     <Icon name="trash" size={18} /> Excluir
                   </button>
+                  {pet.missing && <ShareButton pet={toSharedPet(pet, ownerOf(pet))!} />}
                   {pet.missing ? (
                     <button
                       className="button found-button"
@@ -212,6 +217,10 @@ function MissingPetDialog({
         <h2 id="missing-title">Criar aviso “Procura-se” para {pet.name}</h2>
         <p>Informe onde e quando ele foi visto pela última vez.</p>
         {error && <p className="field-error" role="alert">{error}</p>}
+        <UseLocationButton
+          label="Usar minha localização atual como último local visto"
+          onLocated={({ city, state }) => setForm((current) => ({ ...current, city, state }))}
+        />
         <SelectField label="Estado" name="missing-state" value={form.state} onChange={(state) => setForm({ ...form, state, city: "" })}>
           <option value="">Selecione</option>
           {states.map((state) => <option key={state}>{state}</option>)}
@@ -224,7 +233,7 @@ function MissingPetDialog({
           <textarea id="missing-notes" rows={3} value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} />
         </div>
         <div className="form-actions">
-          <button className="button secondary" type="button" onClick={onCancel}>Cancelar</button>
+          <button className="button cancel" type="button" onClick={onCancel}>Cancelar</button>
           <button className="button" type="submit">Confirmar Procura-se</button>
         </div>
       </form>

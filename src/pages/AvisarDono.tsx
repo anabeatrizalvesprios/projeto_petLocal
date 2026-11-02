@@ -6,6 +6,7 @@ import { Field, SelectField } from "../components/Field"
 import { BackHome } from "../components/BackHome"
 import { PublicHeader } from "../components/PublicHeader"
 import { speciesIcon } from "../components/SpeciesField"
+import { UseLocationButton } from "../components/UseLocationButton"
 import { states } from "../constants"
 import { LocationRecord, makeId, Pet, store } from "../data"
 import { navigate } from "../routes"
@@ -36,25 +37,7 @@ export function AvisarDono({
     longitude: undefined as number | undefined,
   })
   const [error, setError] = useState("")
-  const [gpsStatus, setGpsStatus] = useState("")
   const [sent, setSent] = useState(false)
-  const getGps = () => {
-    setGpsStatus("Solicitando autorização do navegador…")
-    navigator.geolocation?.getCurrentPosition(
-      (position) => {
-        setForm({
-          ...form,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        })
-        setGpsStatus("Localização obtida. Informe também a cidade e o estado.")
-      },
-      () =>
-        setGpsStatus(
-          "Não foi possível usar sua localização. Preencha o local manualmente.",
-        ),
-    )
-  }
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError("")
@@ -84,7 +67,7 @@ export function AvisarDono({
   return (
     <>
       {showHeader && <PublicHeader />}
-      <Page className="found-page">
+      <Page id={showHeader ? "conteudo" : undefined} className="found-page">
         <div className="page-back-actions">
           <button className="back-link" onClick={() => navigate(origin)}>
             {origin === "wanted" ? "← Voltar para o Procura-se" : "← Voltar para a busca"}
@@ -131,7 +114,10 @@ export function AvisarDono({
                 <p>Informe o local para ajudar {owner.name} a encontrar o pet.</p>
               </div>
               <form className="form-panel public-alert-form" onSubmit={submit} noValidate>
-                {error && <p className="inline-error" role="alert">{error}</p>}
+                {error && <p id="form-error" className="inline-error" role="alert">{error}</p>}
+                <UseLocationButton
+                  onLocated={(place) => setForm((current) => ({ ...current, ...place }))}
+                />
                 <div className="form-grid">
                   <SelectField label="Estado" name="alert-state" value={form.state} onChange={(state) => setForm({ ...form, state, city: "" })}>
                     <option value="">Selecione</option>
@@ -140,10 +126,6 @@ export function AvisarDono({
                   <CityCombobox state={form.state} value={form.city} onChange={(city) => setForm({ ...form, city })} name="alert" />
                 </div>
                 <Field label="Ponto de referência (opcional)" name="alert-reference" value={form.reference} onChange={(reference) => setForm({ ...form, reference })} placeholder="Ex.: em frente à padaria" />
-                <button className="button secondary gps-public-button" type="button" onClick={getGps}>
-                  <Icon name="gps" /> Usar minha localização
-                </button>
-                {gpsStatus && <p className="gps-status" role="status">{gpsStatus}</p>}
                 <Field label="Data e hora" name="alert-seen-at" type="datetime-local" required value={form.seenAt} onChange={(seenAt) => setForm({ ...form, seenAt })} />
                 <div className="field">
                   <label htmlFor="alert-details">Como o pet está? <span className="optional-label">(opcional)</span></label>

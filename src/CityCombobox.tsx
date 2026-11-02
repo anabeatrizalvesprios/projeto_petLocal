@@ -18,6 +18,24 @@ const cache = new Map<string, string[]>()
 const normalize = (value: string) =>
   value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
 
+/** Ajusta o nome da cidade para a grafia oficial do IBGE (acentos e maiúsculas), quando a lista estiver disponível. */
+export async function resolveCityName(state: string, name: string) {
+  try {
+    let names = cache.get(state)
+    if (!names) {
+      const response = await fetch(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios?orderBy=nome`,
+      )
+      if (!response.ok) throw new Error("IBGE indisponível")
+      names = ((await response.json()) as Array<{ nome: string }>).map((item) => item.nome)
+      cache.set(state, names)
+    }
+    return names.find((city) => normalize(city) === normalize(name)) ?? name
+  } catch {
+    return name
+  }
+}
+
 export function CityCombobox({
   state,
   value,
@@ -37,6 +55,7 @@ export function CityCombobox({
   const [query, setQuery] = useState(value)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [offline, setOffline] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const id = `city-${name}`
@@ -57,6 +76,7 @@ export function CityCombobox({
       return
     }
     setLoading(true)
+    setOffline(false)
     fetch(
       `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios?orderBy=nome`,
     )
@@ -72,7 +92,10 @@ export function CityCombobox({
       .catch(() => {
         const names = fallbackCities[state] ?? []
         cache.set(state, names)
-        if (active) setCities(names)
+        if (active) {
+          setCities(names)
+          setOffline(true)
+        }
       })
       .finally(() => {
         if (active) setLoading(false)
@@ -161,6 +184,11 @@ export function CityCombobox({
               ? `Cidade selecionada: ${value}`
               : ""}
       </div>
+      {offline && (
+        <small role="status">
+          Não foi possível carregar a lista completa de cidades. Mostrando uma lista reduzida.
+        </small>
+      )}
       {open && (
         <div id={`${id}-list`} className="city-options" role="listbox">
           {loading ? (

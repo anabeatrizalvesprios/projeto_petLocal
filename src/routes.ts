@@ -15,6 +15,7 @@ export type Route =
   | "pet-form"
   | "location"
   | "profile"
+  | "shared"
 
 export const publicRoutes: Route[] = [
   "home",
@@ -25,10 +26,11 @@ export const publicRoutes: Route[] = [
   "found",
   "alert",
   "wanted",
+  "shared",
 ]
 
 export function routeFromHash(): Route {
-  const value = window.location.hash.replace("#/", "") as Route
+  const value = window.location.hash.replace("#/", "").split("?")[0] as Route
   return [
     "home",
     "register",
@@ -43,6 +45,7 @@ export function routeFromHash(): Route {
     "pet-form",
     "location",
     "profile",
+    "shared",
   ].includes(value)
     ? value
     : "home"

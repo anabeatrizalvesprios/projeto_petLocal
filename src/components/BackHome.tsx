@@ -7,7 +7,7 @@ export function BackHome() {
   return (
     <button
       type="button"
-      className="back-link"
+      className="back-link back-home"
       onClick={() => navigate(store.session() ? "dashboard" : "home")}
     >
       <Icon name="home" size={19} /> Voltar para a tela inicial

@@ -1,4 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap');
+@import '@fontsource/manrope/latin-400.css';
+@import '@fontsource/manrope/latin-500.css';
+@import '@fontsource/manrope/latin-600.css';
+@import '@fontsource/manrope/latin-700.css';
+@import '@fontsource/manrope/latin-800.css';
+@import '@fontsource/nunito/latin-700.css';
+@import '@fontsource/nunito/latin-800.css';
+@import '@fontsource/nunito/latin-900.css';
 @import 'tailwindcss';
 
 :root {
@@ -297,7 +304,7 @@ fieldset legend { padding: 0 .7rem 0 0; font: 800 1.05rem 'Nunito', sans-serif; 
 .steps small:last-of-type { grid-column: 3; }
 .auth-switch { margin-top: 1.4rem; text-align: center; color: var(--muted); }
 .auth-switch button { border: 0; color: var(--tx-green-700); background: transparent; font-weight: 800; text-decoration: underline; }
-.info-box { display: flex; align-items: flex-start; gap: .7rem; border-radius: 10px; padding: .8rem; color: var(--tx-blue-700); background: var(--blue-50); font-size: .88rem; }
+.info-box { display: flex; align-items: flex-start; gap: .7rem; border-radius: 10px; padding: .8rem; color: var(--tx-blue-700); background: var(--blue-50); font-size: 1rem; }
 .success-panel { text-align: center; }
 .success-panel > span { width: 70px; height: 70px; display: grid; place-items: center; margin: auto; border-radius: 50%; color: var(--tx-green-700); background: var(--green-100); }
 .success-panel h2 { margin: 1rem 0 .4rem; }
@@ -350,7 +357,7 @@ fieldset legend { padding: 0 .7rem 0 0; font: 800 1.05rem 'Nunito', sans-serif; 
 .latest-location p { margin: .1rem 0; }
 .latest-location small { color: var(--muted); }
 .tip { display: flex; align-items: flex-start; gap: .7rem; margin-top: 1rem; padding: 1rem; border-radius: 14px; color: var(--yellow-text); background: var(--warning-bg); }
-.tip p { display: flex; flex-direction: column; margin: 0; font-size: .8rem; }
+.tip p { display: flex; flex-direction: column; margin: 0; font-size: 1rem; }
 .dashboard-empty { min-height: 170px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; color: var(--tx-green-800); text-align: center; }
 .dashboard-empty svg { color: var(--tx-blue-700); }
 .dashboard-empty strong { font-size: 1.05rem; }
@@ -603,3 +610,76 @@ fieldset, .field, .form-grid > * { min-width: 0; }
 .help-modal details p { margin: .2rem 0 .4rem; color: var(--muted-strong); }
 .help-modal .form-actions { margin-top: 1rem; justify-content: flex-end; }
 @media (max-width: 760px) { .notice { bottom: 5rem; } }
+
+/* Ícones nos campos de e-mail e senha, e botão de mostrar/ocultar senha */
+.input-wrap { position: relative; display: flex; align-items: center; }
+.input-icon { position: absolute; left: .9rem; display: grid; place-items: center; color: var(--muted-strong); pointer-events: none; }
+.field input.has-icon { padding-left: 2.8rem; }
+.field input.has-toggle { padding-right: 3.4rem; }
+.toggle-password { position: absolute; right: .3rem; width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 10px; color: var(--ink); background: transparent; }
+.toggle-password:hover { background: var(--green-50); }
+.toggle-password[aria-pressed="true"] { color: var(--tx-green-800); background: var(--green-100); }
+
+/* Botão "Usar minha localização atual" */
+.locate-box { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; }
+.locate-box .gps-status { margin: 0; font-size: 1rem; }
+.locate-box .gps-status.error { color: var(--danger-text); }
+
+/* Selo "Perto de você" no Procura-se */
+.near-badge { position: absolute; top: .8rem; right: .8rem; border-radius: 99px; padding: .35rem .65rem; color: white; background: var(--blue-700); font-size: .875rem; font-weight: 800; }
+
+/* Entre em contato */
+.contact-section { padding: 4rem max(5vw, calc((100vw - 1140px) / 2)); background: var(--surface); }
+.contact-section h2 { margin: 0 0 .5rem; font-size: 1.8rem; }
+.contact-section > p { margin: 0 0 1.5rem; color: var(--muted-strong); }
+.contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+.contact-card { min-height: 44px; display: flex; align-items: center; gap: 1rem; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.2rem 1.4rem; color: var(--ink); background: var(--surface); text-decoration: none; }
+.contact-card:hover { background: var(--green-50); border-color: var(--green-600); }
+.contact-card .feature-icon { flex: 0 0 50px; }
+.contact-card span span { display: block; color: var(--muted-strong); font-size: 1rem; }
+.contact-card strong { display: block; font-size: 1.1rem; overflow-wrap: anywhere; color: var(--tx-green-800); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Botão "Cancelar": fundo vermelho */
+.button.cancel { color: white; background: var(--danger); border-color: var(--danger); }
+.button.cancel:hover { background: var(--danger-strong-bg, #85242e); border-color: #85242e; }
+:root[data-theme="dark"] .button.cancel { background: #b4323d; border-color: #b4323d; }
+.form-actions.split { justify-content: space-between; margin-top: 1rem; }
+.form-actions.split .button { min-width: 140px; }
+
+/* "Voltar para a tela inicial" com fundo destacado */
+.back-link.back-home { min-height: 44px; align-items: center; gap: .5rem; border: 2px solid var(--green-700); border-radius: 12px; padding: .5rem 1rem; color: var(--tx-green-900); background: var(--green-100); }
+.back-link.back-home:hover { color: white; background: var(--green-700); }
+
+/* Campos de grupo (espécie, chip) destacados quando faltam */
+.radio-group:has([aria-invalid="true"]), .species-options:has([aria-invalid="true"]) { border-radius: 12px; outline: 2px solid var(--danger); outline-offset: 4px; }
+.radio-group [aria-invalid="true"], .species-options [aria-invalid="true"] { outline: none; }
+.inline-error:focus, .field-error:focus { outline: 3px solid #f0a82f; outline-offset: 2px; }
+
+/* Termos de uso */
+.terms-check { display: flex; align-items: flex-start; gap: .7rem; margin: 1rem 0 .4rem; border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1rem; background: var(--green-50); }
+.terms-check input { width: 24px; height: 24px; flex: 0 0 24px; margin-top: .1rem; accent-color: var(--green-700); }
+.terms-check label { font-weight: 700; }
+.terms-check .terms-link { display: inline; min-height: 0; padding: 0; color: var(--tx-green-800); background: none; border: 0; font: inherit; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; text-transform: uppercase; }
+.terms-check:has(input[aria-invalid="true"]) { border-color: var(--danger); outline: 2px solid var(--danger); }
+.terms-check input[aria-invalid="true"] { outline: none; }
+.terms-modal { width: min(640px, 100%); max-height: calc(100vh - 2rem); display: flex; flex-direction: column; padding: 0; text-align: left; overflow: hidden; }
+.terms-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding: 1rem 1.2rem 1rem 1.6rem; }
+.terms-head h2 { margin: 0; font-size: 1.4rem; }
+.terms-close { width: 44px; height: 44px; display: grid; place-items: center; border: 2px solid var(--green-700); border-radius: 50%; color: var(--tx-green-900); background: var(--surface); font-size: 1.5rem; line-height: 1; font-weight: 800; }
+.terms-close:hover { background: var(--green-100); }
+.terms-body { overflow-y: scroll; padding: 1.2rem 1.6rem 1.6rem; }
+.terms-body:focus-visible { outline-offset: -4px; }
+.terms-body h3 { margin: 1.2rem 0 .3rem; font-size: 1.1rem; }
+.terms-body h3:first-child { margin-top: 0; }
+.terms-body p { margin: 0 0 .5rem; color: var(--ink); }
+
+/* Compartilhar */
+.share-modal { width: min(560px, 100%); max-height: calc(100vh - 2rem); overflow-y: auto; text-align: left; }
+.share-modal h2 { margin-top: 0; }
+.share-modal textarea { width: 100%; border: 1.5px solid var(--border-input); border-radius: 11px; padding: .8rem; color: var(--ink); background: var(--surface); font: inherit; resize: vertical; }
+.share-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .8rem; }
+.share-actions .button { flex: 1 1 200px; text-decoration: none; }
+.share-status { min-height: 1.5rem; margin: .6rem 0 0; color: var(--tx-green-800) !important; font-weight: 700; }
+.share-note { margin: 0; font-size: 1rem; }
+.shared-page { max-width: 720px; }
+.card-actions .button { }

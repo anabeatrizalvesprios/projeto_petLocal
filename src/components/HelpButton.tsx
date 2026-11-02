@@ -17,6 +17,7 @@ const tips: Record<Route, string> = {
   pets: "Aqui você cadastra, edita ou exclui seus pets e marca um pet como desaparecido ou encontrado.",
   "pet-form": "Os campos com asterisco (*) são obrigatórios. O código de identificação não pode ser alterado depois, para o QR code da coleira continuar funcionando.",
   location: "Os avisos novos aparecem primeiro. Clique em “Marcar como visto” para tirar o aviso da lista de novos. Você pode vê-lo depois em “Vistos”.",
+  shared: "Este é o aviso de um único pet desaparecido. Se você viu o animal, ligue ou chame o tutor no WhatsApp.",
   profile: "Atualize seu contato. O telefone aparece para quem encontrar o seu pet.",
 }
 

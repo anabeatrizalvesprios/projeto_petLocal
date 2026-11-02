@@ -4,3 +4,8 @@ export function whatsappLink(phone: string, message: string) {
   const number = digits.startsWith("55") ? digits : `55${digits}`
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`
 }
+
+/** Abre o WhatsApp (sem número definido) para a pessoa escolher o contato que receberá a mensagem. */
+export function whatsappShareLink(message: string) {
+  return `https://wa.me/?text=${encodeURIComponent(message)}`
+}

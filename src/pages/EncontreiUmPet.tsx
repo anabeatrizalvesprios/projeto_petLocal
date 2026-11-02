@@ -195,7 +195,7 @@ export function EncontreiUmPet({
   return (
     <>
       {showHeader && <PublicHeader />}
-      <Page className="found-page">
+      <Page id={showHeader ? "conteudo" : undefined} className="found-page">
         <BackHome />
         <section className="found-access-card" aria-labelledby="found-title">
           <span className="feature-icon blue" aria-hidden="true">

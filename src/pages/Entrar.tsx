@@ -47,7 +47,7 @@ export function Entrar({ onLogin }: { onLogin: (user: User) => void }) {
       subtitle="Entre para acessar os dados dos seus pets."
     >
       {error && (
-        <p className="inline-error" role="alert">
+        <p id="form-error" className="inline-error" role="alert">
           <Icon name="warning" size={18} /> {error}
         </p>
       )}

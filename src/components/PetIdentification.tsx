@@ -52,6 +52,7 @@ export function PetIdentification({
   onCodeChange: (value: string) => void
 }) {
   const [qrImage, setQrImage] = useState("")
+  const [printError, setPrintError] = useState("")
 
   useEffect(() => {
     let active = true
@@ -79,7 +80,11 @@ export function PetIdentification({
   const printQr = () => {
     if (!qrImage) return
     const printWindow = window.open("", "_blank", "width=520,height=650")
-    if (!printWindow) return
+    if (!printWindow) {
+      setPrintError("Não foi possível abrir a janela de impressão. Permita pop-ups neste site e tente de novo.")
+      return
+    }
+    setPrintError("")
     printWindow.document.title = `Identificação de ${petName || "pet"}`
     const main = printWindow.document.createElement("main")
     main.style.cssText =
@@ -121,6 +126,7 @@ export function PetIdentification({
           <label className={hasChip === "yes" ? "selected" : undefined}>
             <input
               type="radio"
+              required
               name="pet-has-chip"
               value="yes"
               checked={hasChip === "yes"}
@@ -132,6 +138,7 @@ export function PetIdentification({
           <label className={hasChip === "no" ? "selected" : undefined}>
             <input
               type="radio"
+              required
               name="pet-has-chip"
               value="no"
               checked={hasChip === "no"}
@@ -216,6 +223,11 @@ export function PetIdentification({
               Imprimir
             </button>
           </div>
+          {printError && (
+            <p className="field-error" role="alert">
+              {printError}
+            </p>
+          )}
         </div>
       )}
     </fieldset>

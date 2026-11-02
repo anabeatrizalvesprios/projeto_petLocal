@@ -84,7 +84,7 @@ export function FormularioPet({
       />
       <form className="panel form-panel pet-editor-form" onSubmit={submit} noValidate>
         {error && (
-          <p className="inline-error" role="alert">
+          <p id="form-error" className="inline-error" role="alert">
             <Icon name="warning" size={18} /> {error}
           </p>
         )}
@@ -167,7 +167,7 @@ export function FormularioPet({
           }}
         />
         <div className="form-actions">
-          <button className="button secondary" type="button" onClick={onCancel}>
+          <button className="button cancel" type="button" onClick={onCancel}>
             Cancelar
           </button>
           <button className="button" type="submit">
