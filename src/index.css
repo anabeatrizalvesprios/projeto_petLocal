@@ -684,11 +684,6 @@ fieldset, .field, .form-grid > * { min-width: 0; }
 .shared-page { max-width: 720px; }
 .card-actions .button { }
 
-/* Libras: botão para fechar/abrir o VLibras em todas as telas */
-.libras-fab { position: fixed; z-index: 2147483000; right: 1rem; bottom: 1rem; display: inline-flex; align-items: center; gap: .5rem; min-height: 48px; border: 2px solid var(--green-700); border-radius: 99px; padding: .55rem 1.1rem; color: var(--tx-green-800); background: var(--surface); box-shadow: var(--shadow); font-weight: 800; }
-.libras-fab:hover { background: var(--green-50); }
-.libras-fab > span { font-size: 1.3rem; line-height: 1; }
-html.libras-closed [vw] { display: none !important; }
 
 /* Botão "Continuar na minha conta" (cabeçalho público, quando já existe login neste aparelho) */
 .header-brand { display: flex; align-items: center; gap: .75rem; min-width: 0; }
@@ -702,3 +697,6 @@ html.libras-closed [vw] { display: none !important; }
 .missing-status { display: flex; align-items: flex-start; gap: .6rem; margin: .6rem 0 1rem; border: 2px solid var(--green-700); border-radius: 12px; padding: .75rem 1rem; color: var(--tx-green-800); background: var(--green-50); font-weight: 700; }
 .missing-status.is-missing { border-color: var(--danger); color: var(--danger-text); background: color-mix(in srgb, var(--danger) 12%, var(--surface)); }
 .missing-status svg { flex: none; margin-top: .1rem; }
+
+/* Segurança: impede a exibição do antigo botão adicional do PetLocal. */
+button.libras-fab { display: none !important; }

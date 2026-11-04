@@ -4,7 +4,6 @@ import { AppShell } from "./components/AppShell"
 import { ConfirmDialog } from "./components/ConfirmDialog"
 import { Notice, NoticeBar } from "./components/NoticeBar"
 import { HelpButton } from "./components/HelpButton"
-import { LibrasControl } from "./components/LibrasControl"
 import { PublicHeader } from "./components/PublicHeader"
 import { LocationRecord, Pet, RegisterDraft, store, User } from "./data"
 import { ensureDemoData } from "./demoLoader"
@@ -303,7 +302,6 @@ export default function App() {
       <NoticeBar notice={notice} clear={() => setNotice(null)} />
       {content}
       <HelpButton route={route} inApp={Boolean(user)} />
-      <LibrasControl />
       {deletingPet && (
         <ConfirmDialog
           title={`Excluir ${deletingPet.name}?`}
