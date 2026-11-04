@@ -25,7 +25,8 @@ const faq: { q: string; a: string }[] = [
   { q: "Meu pet sumiu. O que faço?", a: "Entre na sua conta, abra “Meus pets” e clique em “Marcar como desaparecido”. Ele passa a aparecer na lista “Procura-se”." },
   { q: "Encontrei um pet. O que faço?", a: "Clique em “Encontrei um pet”, digite o código da plaquinha ou leia o QR code. Você verá o contato do dono para ligar, chamar no WhatsApp ou enviar um aviso." },
   { q: "Como uso o site só com o teclado?", a: "Use Tab para avançar e Shift+Tab para voltar. Enter ou Espaço aciona botões. Esc fecha janelas. As setas funcionam nas abas e na lista de cidades." },
-  { q: "Tem tradução para Libras?", a: "Sim. Use o botão do VLibras, na lateral direita da tela, para ver o texto traduzido para Libras." },
+  { q: "Tem tradução para Libras?", a: "Sim. Use o botão do VLibras, na lateral direita da tela, para ver o texto traduzido para Libras. Para fechar o tradutor, clique em “Fechar Libras”, no canto inferior direito. Para voltar a usar, clique em “Abrir Libras”." },
+  { q: "Já entrei antes neste aparelho. Como volto para a minha conta?", a: "Na tela inicial, clique no botão “Continuar na minha conta”, no canto superior esquerdo. Você entra direto, sem digitar e-mail e senha de novo." },
   { q: "Meus dados ficam salvos onde?", a: "Neste navegador, neste aparelho. Se limpar os dados do navegador, as informações são apagadas." },
 ]
 

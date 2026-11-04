@@ -683,3 +683,22 @@ fieldset, .field, .form-grid > * { min-width: 0; }
 .share-note { margin: 0; font-size: 1rem; }
 .shared-page { max-width: 720px; }
 .card-actions .button { }
+
+/* Libras: botão para fechar/abrir o VLibras em todas as telas */
+.libras-fab { position: fixed; z-index: 2147483000; right: 1rem; bottom: 1rem; display: inline-flex; align-items: center; gap: .5rem; min-height: 48px; border: 2px solid var(--green-700); border-radius: 99px; padding: .55rem 1.1rem; color: var(--tx-green-800); background: var(--surface); box-shadow: var(--shadow); font-weight: 800; }
+.libras-fab:hover { background: var(--green-50); }
+.libras-fab > span { font-size: 1.3rem; line-height: 1; }
+html.libras-closed [vw] { display: none !important; }
+
+/* Botão "Continuar na minha conta" (cabeçalho público, quando já existe login neste aparelho) */
+.header-brand { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+.account-shortcut { min-height: 44px; display: inline-flex; align-items: center; gap: .5rem; border: 2px solid var(--green-700); border-radius: 12px; padding: .35rem .8rem; color: var(--tx-green-800); background: var(--surface); text-align: left; line-height: 1.15; }
+.account-shortcut:hover { background: var(--green-50); }
+.account-shortcut > span { display: grid; }
+.account-shortcut strong { font-size: .95rem; font-weight: 800; }
+.account-shortcut small { font-size: .78rem; color: var(--muted-strong); }
+
+/* Resultado da busca por código/QR: situação do pet (desaparecido ou não) */
+.missing-status { display: flex; align-items: flex-start; gap: .6rem; margin: .6rem 0 1rem; border: 2px solid var(--green-700); border-radius: 12px; padding: .75rem 1rem; color: var(--tx-green-800); background: var(--green-50); font-weight: 700; }
+.missing-status.is-missing { border-color: var(--danger); color: var(--danger-text); background: color-mix(in srgb, var(--danger) 12%, var(--surface)); }
+.missing-status svg { flex: none; margin-top: .1rem; }

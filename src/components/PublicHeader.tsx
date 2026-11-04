@@ -4,11 +4,14 @@ import { Icon } from "../Icons"
 import { Logo } from "./Logo"
 import { SkipLink } from "./SkipLink"
 import { ThemeToggle } from "./ThemeToggle"
+import { store } from "../data"
 import { navigate, openFoundSearch, Route, routeFromHash } from "../routes"
 
 export function PublicHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
   const currentRoute = routeFromHash()
+  // Quem já entrou neste aparelho vê um botão escrito para voltar direto à própria conta.
+  const sessionUser = store.users().find((item) => item.id === store.session())
   const isCurrent = (route: Route) =>
     currentRoute === route || (route === "found" && currentRoute === "alert")
   const goTo = (route: Route) => {
@@ -21,7 +24,23 @@ export function PublicHeader() {
     <header className="public-header">
       <SkipLink />
       <div className="header-inner">
-        <Logo />
+        <div className="header-brand">
+          <Logo />
+          {sessionUser && (
+            <button
+              type="button"
+              className="account-shortcut"
+              onClick={() => navigate("dashboard")}
+              aria-label={`Continuar na minha conta, como ${sessionUser.name.split(" ")[0]}`}
+            >
+              <Icon name="user" size={22} />
+              <span>
+                <strong>Continuar na minha conta</strong>
+                <small>Você já entrou neste aparelho</small>
+              </span>
+            </button>
+          )}
+        </div>
         <nav aria-label="Navegação principal">
           <button
             className="public-menu-toggle"

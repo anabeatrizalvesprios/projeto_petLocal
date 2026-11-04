@@ -4,9 +4,20 @@ import { Icon } from "../Icons"
 import { BackHome } from "../components/BackHome"
 import { PublicHeader } from "../components/PublicHeader"
 import { PetTypeLabel, speciesIcon } from "../components/SpeciesField"
-import { Pet, store, User } from "../data"
+import { formatDate, Pet, store, User } from "../data"
 import { validateForm } from "../formValidation"
 import { whatsappLink } from "../contact"
+
+// Ignora espaços e maiúsculas/minúsculas, para o código digitado ou lido do QR sempre bater com o cadastrado.
+const normalizeCode = (value?: string) => (value ?? "").replace(/\s+/g, "").toUpperCase()
+
+function findByCode(value: string): { pet: Pet; tutor: User } | null {
+  const normalized = normalizeCode(value)
+  if (!normalized) return null
+  const pet = store.pets().find((item) => normalizeCode(item.identifierCode) === normalized)
+  const tutor = pet ? store.users().find((item) => item.id === pet.userId) : undefined
+  return pet && tutor ? { pet, tutor } : null
+}
 
 export function EncontreiUmPet({
   onAlert,
@@ -22,21 +33,16 @@ export function EncontreiUmPet({
   const [cameraError, setCameraError] = useState("")
   const [cameraStatus, setCameraStatus] = useState("")
   const [searchError, setSearchError] = useState("")
-  const [result, setResult] = useState<{ pet: Pet; tutor: User } | null>(() => {
-    const savedCode = sessionStorage.getItem("petlocal_last_search_code")
-    if (!savedCode) return null
-    const pet = store
-      .pets()
-      .find(
-        (item) =>
-          item.identifierCode?.trim().toUpperCase() ===
-          savedCode?.trim().toUpperCase(),
-      )
-    const tutor = pet
-      ? store.users().find((item) => item.id === pet.userId)
-      : undefined
-    return pet && tutor ? { pet, tutor } : null
-  })
+  const [foundResult, setResult] = useState<{ pet: Pet; tutor: User } | null>(() =>
+    findByCode(sessionStorage.getItem("petlocal_last_search_code") ?? ""),
+  )
+  // Sempre lê o pet atualizado do armazenamento, para a situação "desaparecido" nunca ficar desatualizada.
+  const result = foundResult
+    ? {
+        pet: store.pets().find((item) => item.id === foundResult.pet.id) ?? foundResult.pet,
+        tutor: store.users().find((item) => item.id === foundResult.tutor.id) ?? foundResult.tutor,
+      }
+    : null
   const videoRef = useRef<HTMLVideoElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
@@ -52,8 +58,8 @@ export function EncontreiUmPet({
   useEffect(() => stopCamera, [])
   // Quando o pet é encontrado, leva o foco ao resultado para que seja lido pelo leitor de tela.
   useEffect(() => {
-    if (result) document.getElementById("found-pet-name")?.focus()
-  }, [result])
+    if (foundResult) document.getElementById("found-pet-name")?.focus()
+  }, [foundResult])
   useEffect(() => {
     const resetSearch = () => {
       stopCamera()
@@ -70,15 +76,9 @@ export function EncontreiUmPet({
   }, [])
 
   const lookupPet = (value: string) => {
-    const normalized = value.trim().toUpperCase()
     sessionStorage.setItem("petlocal_last_search_code", value.trim())
-    const pet = store
-      .pets()
-      .find((item) => item.identifierCode?.trim().toUpperCase() === normalized)
-    const tutor = pet
-      ? store.users().find((item) => item.id === pet.userId)
-      : undefined
-    if (!pet || !tutor) {
+    const found = findByCode(value)
+    if (!found) {
       setResult(null)
       setSearchError(
         "Nenhum pet encontrado com este código. Confira e tente de novo.",
@@ -86,7 +86,7 @@ export function EncontreiUmPet({
       return
     }
     setSearchError("")
-    setResult({ pet, tutor })
+    setResult(found)
   }
 
   const chooseCode = () => {
@@ -320,6 +320,21 @@ export function EncontreiUmPet({
               <div className="found-pet-data">
                 <span>Pet identificado</span>
                 <h2 id="found-pet-name" tabIndex={-1}>{result.pet.name}</h2>
+                {result.pet.missing ? (
+                  <p className="missing-status is-missing" role="status">
+                    <Icon name="warning" size={22} />
+                    <span>
+                      Este pet está marcado como desaparecido. O tutor está procurando por ele.
+                    </span>
+                  </p>
+                ) : (
+                  <p className="missing-status" role="status">
+                    <Icon name="check" size={22} />
+                    <span>
+                      Este pet não está marcado como desaparecido. Se ele estiver com você, avise o dono mesmo assim.
+                    </span>
+                  </p>
+                )}
                 <PetTypeLabel species={result.pet.species} />
                 <dl>
                   <div><dt>Raça</dt><dd>{result.pet.breed || "Não informada"}</dd></div>
@@ -331,11 +346,22 @@ export function EncontreiUmPet({
                   <p>{result.pet.notes || "Nenhuma observação informada."}</p>
                 </div>
                 <div className="search-location">
-                  <strong>Último local visto</strong>
-                  <p>
-                    {result.pet.missing?.city || result.tutor.city} – {result.pet.missing?.state || result.tutor.state}
-                    {result.pet.missing?.reference ? ` · ${result.pet.missing.reference}` : ""}
-                  </p>
+                  {result.pet.missing ? (
+                    <>
+                      <strong>Último local visto</strong>
+                      <p>
+                        {result.pet.missing.city} – {result.pet.missing.state || result.tutor.state}
+                        {result.pet.missing.reference ? ` · ${result.pet.missing.reference}` : ""}
+                      </p>
+                      <time dateTime={result.pet.missing.seenAt}>{formatDate(result.pet.missing.seenAt)}</time>
+                      {result.pet.missing.notes && <p>{result.pet.missing.notes}</p>}
+                    </>
+                  ) : (
+                    <>
+                      <strong>Cidade do tutor</strong>
+                      <p>{result.tutor.city} – {result.tutor.state}</p>
+                    </>
+                  )}
                 </div>
                 <div className="owner-contact">
                   <span>Contato do dono</span>
