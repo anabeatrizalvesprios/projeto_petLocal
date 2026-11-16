@@ -20,5 +20,5 @@ Demo: https://projeto-pet-local.vercel.app/#/home
 Projeto acadêmico do curso de Engenharia de Software (Fateb), com foco em arquitetura de software e experiência do usuário (IHC).
 
 ## Autora
-Ana Beatriz Alves Peçanha Rios
+Ana Beatriz Alves Peçanha Rios  |  
 Gabrielly de Castro Begoti
